@@ -1,7 +1,7 @@
 <template>
   <div class="py-5">
     <div class="container">
-      <UserProfileCard :initial-user="user" :isFollowed="isFollowed" />
+      <UserProfileCard :initial-user="user" :initial-isFollowed="isFollowed" />
       <div class="row">
         <div class="col-md-4">
           <UserFollowingsCard :initial-user="user" />
@@ -1299,6 +1299,7 @@ export default {
         favoriteRestaurants: [],
         followings: [],
         followers: [],
+        isCurrentUser: false, //自己增加的屬性
       },
       isFollowed: false,
     };

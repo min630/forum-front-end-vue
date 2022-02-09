@@ -19,16 +19,21 @@
               收藏的餐廳
             </li>
             <li>
-              <strong>{{ user.Followings.length }}</strong> followings
-              (追蹤者)
+              <strong>{{ user.Followings.length }}</strong> followings (追蹤者)
             </li>
             <li>
-              <strong>{{ user.Followers.length }}</strong> followers
-              (追隨者)
+              <strong>{{ user.Followers.length }}</strong> followers (追隨者)
             </li>
           </ul>
-          <p></p>
-          <form action="/following/3" method="POST" style="display: contents">
+          <template v-if="user.isCurrentUser">
+            <router-link
+              :to="{ name: 'user-edit', params: { id: user.id } }"
+              class="btn btn-primary"
+            >
+              Edit
+            </router-link>
+          </template>
+          <template v-else>
             <button
               v-if="isFollowed"
               @click.stop.prevent="unFollow"
@@ -45,8 +50,7 @@
             >
               追蹤
             </button>
-          </form>
-          <p></p>
+          </template>
         </div>
       </div>
     </div>
@@ -60,22 +64,23 @@ export default {
       type: Object,
       required: true,
     },
-    isFollowed: {
+    initialIsFollowed: {
       type: Boolean,
       required: true,
-    }
+    },
   },
   data() {
     return {
       user: this.initialUser,
+      isFollowed: this.initialIsFollowed
     };
   },
   methods: {
     follow() {
-      this.user.isFollowed = true;
+      this.isFollowed = true;
     },
     unFollow() {
-      this.user.isFollowed = false;
+      this.isFollowed = false;
     },
   },
 };
