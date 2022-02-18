@@ -1,18 +1,18 @@
 <template>
   <div class="col-3">
     <a href="#">
-      <img :src="user.image" width="140px" height="140px" />
+      <img :src="user.image | emptyImage" width="140px" height="140px" />
     </a>
     <h2>{{ user.name }}</h2>
     <span class="badge badge-secondary"
-      >追蹤人數：{{ user.FollowerCount }}</span
+      >追蹤人數：{{ user.followerCount }}</span
     >
     <p class="mt-3">
       <button
         type="button"
         class="btn btn-danger"
         v-if="user.isFollowed"
-        @click.stop.prevent="unfollowUser"
+        @click.stop.prevent="unfollowUser(user.id)"
       >
         取消追蹤
       </button>
@@ -20,7 +20,7 @@
         type="button"
         class="btn btn-primary"
         v-else
-        @click.stop.prevent="followUser"
+        @click.stop.prevent="followUser(user.id)"
       >
         追蹤
       </button>
@@ -29,6 +29,10 @@
 </template>
 
 <script>
+import { emptyImageFilter } from "../utils/mixins";
+import usersAPI from "../apis/users";
+import { Toast } from "../utils/helpers";
+
 export default {
   props: {
     initialUserTop: {
@@ -36,27 +40,50 @@ export default {
       require: true,
     },
   },
+  mixins: [emptyImageFilter],
   data() {
     return {
       user: this.initialUserTop,
     };
   },
   methods: {
-    followUser() {
-      const plusFollower = this.user.FollowerCount + 1;
-      this.user = {
-        ...this.user,
-        isFollowed: true,
-        FollowerCount: plusFollower,
-      };
+    async followUser(userId) {
+      try {
+        const { data } = await usersAPI.addFollowing({ userId });
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+        const addFollower = this.user.followerCount + 1;
+        this.user = {
+          ...this.user,
+          isFollowed: true,
+          followerCount: addFollower,
+        };
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法加入追蹤，請稍後再試",
+        });
+      }
     },
-    unfollowUser() {
-      const minusFollower = this.user.FollowerCount - 1;
-      this.user = {
-        ...this.user,
-        isFollowed: false,
-        FollowerCount: minusFollower,
-      };
+    async unfollowUser(userId) {
+      try {
+        const { data } = await usersAPI.deleteFollowing({ userId });
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+        const minusFollower = this.user.followerCount - 1;
+        this.user = {
+          ...this.user,
+          isFollowed: false,
+          followerCount: minusFollower,
+        };
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法取消追蹤，請稍後再試",
+        });
+      }
     },
   },
 };

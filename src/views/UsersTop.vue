@@ -16,50 +16,9 @@
 <script>
 import NavTabs from "../components/NavTabs";
 import UsersTopCard from "../components/userTopCard";
+import usersAPI from "../apis/users";
+import { Toast } from "../utils/helpers";
 
-const dummyData = {
-  users: [
-    {
-      id: 1,
-      name: "root",
-      email: "root@example.com",
-      password: "$2a$10$kHBy5vpGjBIHKkc0EHSgiu6GDzSK8FSGY03HBA8u5AEQEmFCr6m8a",
-      isAdmin: true,
-      image: "https://i.pravatar.cc/140?img=10",
-      createdAt: "2022-01-25T08:32:54.000Z",
-      updatedAt: "2022-01-25T08:32:54.000Z",
-      Followers: [],
-      FollowerCount: 0,
-      isFollowed: false,
-    },
-    {
-      id: 2,
-      name: "user1",
-      email: "user1@example.com",
-      password: "$2a$10$rkzaj69m3JdCNIFVzfOIGuRPWh6VAbgQAWy/Rf7hlkfrUUAT1p9My",
-      isAdmin: false,
-      image: "https://i.pravatar.cc/140?img=12",
-      createdAt: "2022-01-25T08:32:54.000Z",
-      updatedAt: "2022-01-25T08:32:54.000Z",
-      Followers: [],
-      FollowerCount: 0,
-      isFollowed: false,
-    },
-    {
-      id: 3,
-      name: "user2",
-      email: "user2@example.com",
-      password: "$2a$10$fHShiPktEMv0/dXQ3i0f6OHwp8VkMjW49JpjHWKCtGtTdzLM7TTO6",
-      isAdmin: false,
-      image: "https://i.pravatar.cc/140?img=14",
-      createdAt: "2022-01-25T08:32:54.000Z",
-      updatedAt: "2022-01-25T08:32:54.000Z",
-      Followers: [],
-      FollowerCount: 0,
-      isFollowed: false,
-    },
-  ],
-};
 
 export default {
   components: {
@@ -71,13 +30,28 @@ export default {
       users: [],
     };
   },
-  methods: {
-    fetchUsers() {
-      this.users = dummyData.users;
-    },
-  },
   created() {
-    this.fetchUsers();
+    this.fetchTopUsers();
   },
+  methods: {
+    async fetchTopUsers() {
+      try {
+        const { data } = await usersAPI.getTopUsers()
+        this.users = data.users.map(user => ({
+          id: user.id,
+          name: user.name,
+          image: user.image,
+          followerCount: user.FollowerCount,
+          isFollowed: user.isFollowed
+        }))
+      } catch(error) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法取得美食達人，請稍後再試'
+        })
+      }
+    }
+  },
+  
 };
 </script>
