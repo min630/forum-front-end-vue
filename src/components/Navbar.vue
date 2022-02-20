@@ -40,44 +40,40 @@
 
 <script>
 /*eslint-disable*/
-//模擬後端傳來的資料(管理者資料)
-const dummyUser = {
-  currentUser: {
-    id: 1,
-    name: "管理者",
-    email: "root@example.com",
-    image: "https://i.pravatar.cc/300",
-    isAdmin: true,
-  },
-  isAuthenticated: true,
-};
+import { mapState } from 'vuex'
 
 export default {
-  // Vue 會在沒有資料時使用此預設值
-  data() {
-    return {
-      currentUser: {
-        id: -1,
-        name: "",
-        email: "",
-        image: "",
-        isAdmin: false,
-      },
-      isAuthenticated: false,
-    };
-  },
-  created() {
-    this.fetchUser();
-  },
-  methods: {
-    fetchUser() {
-      (this.currentUser = {
-        ...this.currentUser,
-        ...dummyUser.currentUser,
-        //將currentUser解構後放入外層的this.currentUser，將dummyUser放後面存在相同的屬性會覆蓋前者的屬性，沒有的屬性會用前者的。
-      }),
-        (this.isAuthenticated = dummyUser.isAuthenticated);
-    },
-  },
+  computed: {
+    //取得Vuex管理的資料
+    ...mapState(['currentUser', 'isAuthenticated'])
+  }
+
+
+  //----- 原本使用模擬資料的方法-----
+  // data() {
+  //   return {
+  //     currentUser: {
+  //       id: -1,
+  //       name: "",
+  //       email: "",
+  //       image: "",
+  //       isAdmin: false,
+  //     },
+  //     isAuthenticated: false,
+  //   };
+  // },
+  // created() {
+  //   this.fetchUser();
+  // },
+  // methods: {
+  //   fetchUser() {
+  //     (this.currentUser = {
+  //       ...this.currentUser,
+  //       ...dummyUser.currentUser,
+  //       //將currentUser解構後放入外層的this.currentUser，將dummyUser放後面存在相同的屬性會覆蓋前者的屬性，沒有的屬性會用前者的。
+  //     }),
+  //       (this.isAuthenticated = dummyUser.isAuthenticated);
+  //   },
+  // },
 };
 </script>

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import SignIn from '../views/SignIn.vue'
 import NotFound from '../views/NotFound.vue'
 import Restaurants from '../views/Restaurants.vue'
+import store from '../store'
 
 Vue.use(VueRouter)
 
@@ -104,13 +105,16 @@ const routes = [
   }
 ]
 
-// const router = new VueRouter({
-//   //mode: 'history',  
-//   //default是hash
-//   routes
-// })
-
-export default new VueRouter({
+const router = new VueRouter({
+  //   //mode: 'history',  (default是hash)
   linkExactActiveClass: 'active',
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  // console.log(to, from)
+  store.dispatch('fetchCurrentUser')
+  next()
+})
+
+export default router

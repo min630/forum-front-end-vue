@@ -9,7 +9,7 @@
             :key="following.id"
             :to="{name: 'user', params: {id: following.id}}"
           >
-            <img :src="following.image"
+            <img :src="following.image | emptyImage"
             width="60" height="60" class="avatar"
             >
           </router-link>
@@ -18,25 +18,15 @@
 </template>
 
 <script>
+import { emptyImageFilter } from '../utils/mixins'
 export default {
+  name: 'UserFollowingsCard',
   props: {
-    initialUser: {
-      type: Object,
-      required: true,
+    followings: {
+      type: Array,
+      required: false,
     }
   },
-  data() {
-    return {
-      followings: []
-    }
-  },
-  created(){
-    this.fetchFollowings()
-  },
-  methods: {
-    fetchFollowings() {
-      this.followings = this.initialUser.Followings
-    }
-  }
+  mixins:[emptyImageFilter]
 }
 </script>

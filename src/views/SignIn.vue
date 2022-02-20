@@ -67,11 +67,6 @@ export default {
   },
   methods: {
     async handleSubmit() {
-      // const data = JSON.stringify({
-      //   email: this.email,
-      //   password: this.password,
-      // });
-      // console.log("data", data);
       try{
         //檢查是否填入空值
         if(!this.email || !this.password) {
@@ -83,19 +78,21 @@ export default {
         }
         //鎖住submit防止多次送出表單
         this.isProcessing = true  
-
-        const response = await authorizationAPI.signIn({
+        
+        // 取得 API 請求後的資料
+        const { data } = await authorizationAPI.signIn({
           email: this.email,
           password: this.password,
         })
-        // 取得 API 請求後的資料
-        const { data } = response;
+        //回傳的data包含message, status,token,user
         
         if (data.status !== 'success') {
           throw new Error(data.message)
         }
         // 將 token 存放在 localStorage 內
         localStorage.setItem("token", data.token);
+        // 將資料傳到Vuex中
+        this.$store.commit('setCurrentUser', data.user)
         // 成功登入後轉址到餐廳首頁
         this.$router.push("/restaurants");
       

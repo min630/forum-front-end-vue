@@ -24,6 +24,7 @@ import restaurantAPI from "../apis/restaurants";
 import { Toast } from "./../utils/helpers";
 
 export default {
+  name: 'RestaurantFeeds',
   components: {
     NavTabs,
     NewestRestaurants,
@@ -44,7 +45,7 @@ export default {
         const response = await restaurantAPI.getFeeds()
         const { restaurants, comments } = response.data
         this.restaurants = restaurants
-        this.comments = comments
+        this.comments = comments.filter(comment => comment.Restaurant && comment.text)  //防止沒有Restaurant或text資料
       } catch (error) {
         Toast.fire({
           icon: 'error',

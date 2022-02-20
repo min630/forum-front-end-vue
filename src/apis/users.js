@@ -3,6 +3,26 @@ import { apiHelper } from "../utils/helpers";
 const getToken = () => localStorage.getItem('token')
 
 export default {
+  getCurrentUser() {
+    return apiHelper.get('/get_current_user', {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
+  },
+  get({ userId }) {
+    return apiHelper.get(`/users/${userId}`, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
+  },
+  update({ userId, formData }) {
+    return apiHelper.put(`/users/${userId}`, formData, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
+  },
+  getTopUsers() {
+    return apiHelper.get('/users/top', {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
+  },
   addFavorite ({ restaurantId }) {
     return apiHelper.post(`/favorite/${restaurantId}`, null, {  //post預設要帶入data，沒有data就加null
       headers: {
@@ -37,9 +57,5 @@ export default {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },
-  getTopUsers() {
-    return apiHelper.get('/users/top', {
-      headers: { Authorization: `Bearer ${getToken()}` }
-    })
-  }
+  
 }

@@ -9,32 +9,25 @@
         :key="follower.id"
         :to="{ name: 'user', params: { id: follower.id } }"
       >
-        <img :src="follower.image" width="60" height="60" class="avatar" />
+        <img :src="follower.image | emptyImage" width="60" height="60" class="avatar" />
       </router-link>
     </div>
   </div>
 </template>
 
 <script>
+import { emptyImageFilter } from '../utils/mixins'
+
 export default {
   props: {
-    initialUser: {
-      type: Object,
-      required: true,
+    followers: {
+      type: Array,
+      // required: false,
+      default: () => []
     },
   },
-  data() {
-    return {
-      followers: [],
-    };
-  },
-  created() {
-    this.fetchFollowers();
-  },
-  methods: {
-    fetchFollowers() {
-      this.followers = this.initialUser.Followers
-    },
-  },
+  mixins:[emptyImageFilter],
+  
+  
 };
 </script>

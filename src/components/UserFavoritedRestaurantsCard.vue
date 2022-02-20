@@ -13,7 +13,7 @@
         }"
       >
         <img
-          :src="restaurant.image"
+          :src="restaurant.image | emptyImage"
           width="60"
           height="60"
           class="avatar"
@@ -24,25 +24,15 @@
 </template>
 
 <script>
+import { emptyImageFilter } from '../utils/mixins'
+
 export default {
   props: {
-    initialUser: {
-      type: Object,
+    favoritedRestaurants: {
+      type: Array,
       required: true,
     },
   },
-  data() {
-    return {
-      favoritedRestaurants: [],
-    };
-  },
-  created() {
-    this.fetchfavoritedRestaurants();
-  },
-  methods: {
-    fetchfavoritedRestaurants() {
-      this.favoritedRestaurants = this.initialUser.FavoritedRestaurants
-    },
-  },
+  mixins:[emptyImageFilter]
 };
 </script>
