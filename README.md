@@ -1,7 +1,9 @@
 # forum-front-end-vue
 
-Demo: [https://min630.github.io/forum-front-end-vue/#/signin](https://min630.github.io/forum-front-end-vue/#/signin)
+Demo: https://min630.github.io/forum-front-end-vue/#/signin
+
 account: root@example.com
+
 password: 12345678
 
 ## Project setup
