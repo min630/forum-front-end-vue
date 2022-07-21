@@ -64,7 +64,7 @@ export default {
   },
   watch: {
     currentUser(newUser) {
-      console.log(newUser.id)
+      console.log(newUser);
       const { id } = this.$route.params;
       this.setUser(id);     
     },
@@ -86,7 +86,7 @@ export default {
     handleFileChange(e) {
       const { files } = e.target;
       if (!files.length) {
-        //未選擇就清空，或是改成為選擇就return
+        // 未選擇就清空，或是改成為選擇就return
         this.user.image = "";
       } else {
         const imageURL = window.URL.createObjectURL(files[0]);

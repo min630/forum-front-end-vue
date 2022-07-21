@@ -75,9 +75,7 @@ export default {
   methods: {
     async fetchUser(userId) {
       try {
-        console.log(userId)
         const { data } = await usersAPI.get({ userId });
-        console.log(data)
         const { profile, isFollowed } = data;
         const {
           id,

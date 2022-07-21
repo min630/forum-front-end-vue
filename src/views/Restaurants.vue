@@ -22,6 +22,9 @@
       :previous-page="previousPage"
       :next-page="nextPage"
     />
+    <div v-if="restaurants.length < 1">
+      此類別目前無餐廳資料
+    </div>
   </div>
 </template>
 
@@ -94,7 +97,6 @@ export default {
         this.nextPage = next;
 
       } catch (error) {
-        console.log(error)
           Toast.fire({
           icon: 'error',
           title: '無法取得餐廳資料，請稍後再試'

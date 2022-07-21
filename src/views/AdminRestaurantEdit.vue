@@ -67,7 +67,6 @@ export default {
           categoryId
         }
       } catch (error) {
-        // console.log("error", error);
         Toast.fire({
           icon: "error",
           title: "無法取得餐廳資料，請稍後再試",

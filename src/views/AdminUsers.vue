@@ -71,7 +71,6 @@ export default {
     async toggleAdmin({ userId, isAdmin }) {
       try {
         const { data } = await adminAPI.users.update({ userId, isAdmin });
-        // console.log(data)
         if (data.status !== "success") {
           throw new Error(data.message);
         }

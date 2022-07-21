@@ -1,7 +1,8 @@
 import axios from 'axios'
 import Swal from 'sweetalert2'
 
-const baseURL = "http://localhost:3000/api"
+const baseURL = "https://forum-express-api.herokuapp.com/api"
+//local 版本 const baseURL = 'http://localhost:3000/api'
 
 export const apiHelper = axios.create({
   baseURL

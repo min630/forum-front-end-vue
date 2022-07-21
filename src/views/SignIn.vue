@@ -80,10 +80,11 @@ export default {
         this.isProcessing = true  
         
         // 取得 API 請求後的資料
-        const { data } = await authorizationAPI.signIn({
+        const response = await authorizationAPI.signIn({
           email: this.email,
           password: this.password,
         })
+        const { data } = response
         //回傳的data包含message, status,token,user
         
         if (data.status !== 'success') {

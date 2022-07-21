@@ -69,7 +69,7 @@ export default {
           isFavorited: true,
           FavoriteCount: this.restaurant.FavoriteCount + 1,
         };
-        console.log(this.restaurant);
+        // console.log(this.restaurant);
       } catch (error) {
         Toast.fire({
           icon: "error",
